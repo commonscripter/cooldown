@@ -12,9 +12,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      min-height: 100vh;
       margin: 0;
       text-align: center;
+      padding: 16px; /* padding for small screens */
     }
     .count { font-size: 2em; font-weight: bold; }
     .muted { color: #9aa4b2; }
@@ -29,6 +30,17 @@
       margin-left: auto;
       margin-right: auto;
     }
+    pre {
+      background: rgba(255,255,255,0.05);
+      padding: 10px;
+      border-radius: 6px;
+      text-align: left;
+      white-space: pre-wrap;    /* ✅ allow wrapping */
+      word-break: break-word;   /* ✅ break long lines */
+      overflow-x: auto;         /* ✅ scroll if needed */
+      max-width: 100%;          /* ✅ fit screen */
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
@@ -38,10 +50,10 @@
     <p><span class="count">8</span> <span class="muted">seconds until copied & redirected...</span></p>
     <p id="copiedMsg" style="display:none;color:#3dd3b0">Copied to clipboard ✓</p>
 
-    <!-- 👇 Added popup notice -->
+    <!-- ⚠️ Popup notice -->
     <div class="notice">
       ⚠️ Google may ask if you allow pop-ups from this site.  
-      Please click **Allow** — this is required to open the key page.
+      Please click <b>Allow</b> — this is required to open the key page.
     </div>
   </div>
 
@@ -70,7 +82,7 @@
 
           countEl.textContent = '0';
 
-          // Open Roblox link in a new tab
+          // Open Roblox link in new tab
           const a = document.createElement("a");
           a.href = redirectURL;
           a.target = "_blank";
