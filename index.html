@@ -6,7 +6,6 @@
     const codeEl = document.getElementById('luaCode');
     const copiedMsg = document.getElementById('copiedMsg');
 
-    // 👇 Your Roblox share link
     const redirectURL = "https://www.roblox.com/share?code=ee4e660e5abd5a4eb3a0ce99c7ef8932&type=Server";
 
     const interval = setInterval(()=>{
@@ -26,8 +25,14 @@
 
         countEl.textContent = '0';
 
-        // 👇 Open in a new tab
-        window.open(redirectURL, "_blank");
+        // 👇 Reliable redirect in new tab
+        const a = document.createElement("a");
+        a.href = redirectURL;
+        a.target = "_blank";
+        a.rel = "noopener";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
 
       } else {
         countEl.textContent = String(t);
