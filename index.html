@@ -18,6 +18,17 @@
     }
     .count { font-size: 2em; font-weight: bold; }
     .muted { color: #9aa4b2; }
+    .notice {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #ffb86b;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 10px;
+      border-radius: 8px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
   </style>
 </head>
 <body>
@@ -26,6 +37,12 @@
     <pre id="luaCode">print("Xmodder - Steal a brainrot") -- loadstring("https://example.com/tu-script.lua")()</pre>
     <p><span class="count">8</span> <span class="muted">seconds until copied & redirected...</span></p>
     <p id="copiedMsg" style="display:none;color:#3dd3b0">Copied to clipboard ✓</p>
+
+    <!-- 👇 Added popup notice -->
+    <div class="notice">
+      ⚠️ Google may ask if you allow pop-ups from this site.  
+      Please click **Allow** — this is required to open the key page.
+    </div>
   </div>
 
   <script>
