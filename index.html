@@ -6,14 +6,14 @@
   <title>Cooldown Redirect</title>
   <style>
     :root {
-      --bg: #0f1724;
-      --card: #1a2436;
-      --text: #e6eef6;
-      --muted: #9aa4b2;
-      --accent: #7c3aed;
-      --accent2: #5b21b6;
-      --success: #3dd3b0;
-      --warn: #ffb86b;
+      --bg: #0a192f;        /* dark navy background */
+      --card: #112240;      /* card panel */
+      --text: #e6f1ff;      /* main text */
+      --muted: #8892b0;     /* muted text */
+      --accent: #64ffda;    /* neon cyan accent */
+      --accent2: #48b8a0;   /* softer accent */
+      --success: #64ffda;
+      --warn: #ff6b6b;      /* coral warning */
     }
 
     body {
@@ -34,21 +34,23 @@
       border-radius: 14px;
       max-width: 500px;
       width: 100%;
-      box-shadow: 0 0 25px rgba(124, 58, 237, 0.2);
+      box-shadow: 0 0 25px rgba(100, 255, 218, 0.2);
       text-align: center;
-      animation: fadeIn 0.5s ease;
+      animation: fadeIn 0.6s ease;
     }
 
     h1 {
       font-size: 1.8em;
       margin-bottom: 16px;
       color: var(--accent);
+      letter-spacing: 1px;
     }
 
     .count {
-      font-size: 2em;
+      font-size: 2.4em;
       font-weight: bold;
-      margin: 8px 0;
+      margin: 10px 0;
+      color: var(--accent);
     }
 
     .muted {
@@ -81,11 +83,31 @@
       overflow-x: auto;
       font-size: 14px;
       margin-bottom: 16px;
+      color: var(--accent2);
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
+      from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* progress bar under countdown */
+    .progress {
+      width: 100%;
+      height: 8px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 6px;
+      margin: 12px 0;
+      overflow: hidden;
+    }
+
+    .bar {
+      height: 100%;
+      background: var(--accent);
+      width: 100%;
+      transform-origin: left;
+      transform: scaleX(1);
+      transition: transform 1s linear;
     }
   </style>
 </head>
@@ -97,6 +119,7 @@ print("CommonScripts - SAB")
 loadstring(game:HttpGet("https://raw.githubusercontent.com/commonscripter/CommonScriptsInvisibility/refs/heads/main/CommonInvisibility.lua"))()
     </pre>
     <p><span class="count">8</span></p>
+    <div class="progress"><div class="bar" id="bar"></div></div>
     <p class="muted">seconds until copied & redirected...</p>
     <p id="copiedMsg" style="color:var(--success)">Copied to clipboard ✓</p>
 
@@ -112,6 +135,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/commonscripter/Common
       const countEl = document.querySelector('.count');
       const codeEl = document.getElementById('luaCode');
       const copiedMsg = document.getElementById('copiedMsg');
+      const bar = document.getElementById('bar');
       const redirectURL = "https://www.roblox.com/share?code=8f5aab87dd6cf443bb96c3e6fc0e6b81&type=Server";
 
       const interval = setInterval(()=>{
@@ -130,6 +154,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/commonscripter/Common
           }
 
           countEl.textContent = '0';
+          bar.style.transform = "scaleX(0)";
 
           // Open Roblox link in new tab
           const a = document.createElement("a");
@@ -142,6 +167,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/commonscripter/Common
 
         } else {
           countEl.textContent = String(t);
+          bar.style.transform = `scaleX(${t/8})`;
         }
       }, 1000);
 
