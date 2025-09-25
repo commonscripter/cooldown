@@ -5,56 +5,104 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Cooldown Redirect</title>
   <style>
+    :root {
+      --bg: #0f1724;
+      --card: #1a2436;
+      --text: #e6eef6;
+      --muted: #9aa4b2;
+      --accent: #7c3aed;
+      --accent2: #5b21b6;
+      --success: #3dd3b0;
+      --warn: #ffb86b;
+    }
+
     body {
-      background: #0f1724;
-      color: #e6eef6;
-      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", Arial, sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
       margin: 0;
+      padding: 16px;
+    }
+
+    .card {
+      background: var(--card);
+      padding: 24px;
+      border-radius: 14px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 0 25px rgba(124, 58, 237, 0.2);
       text-align: center;
-      padding: 16px; /* padding for small screens */
+      animation: fadeIn 0.5s ease;
     }
-    .count { font-size: 2em; font-weight: bold; }
-    .muted { color: #9aa4b2; }
+
+    h1 {
+      font-size: 1.8em;
+      margin-bottom: 16px;
+      color: var(--accent);
+    }
+
+    .count {
+      font-size: 2em;
+      font-weight: bold;
+      margin: 8px 0;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
     .notice {
-      margin-top: 12px;
+      margin-top: 16px;
       font-size: 14px;
-      color: #ffb86b;
+      color: var(--warn);
       background: rgba(255, 255, 255, 0.05);
-      padding: 10px;
-      border-radius: 8px;
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
+      padding: 12px;
+      border-radius: 10px;
     }
+
+    #copiedMsg {
+      margin-top: 10px;
+      font-weight: bold;
+      display: none;
+    }
+
     pre {
-      background: rgba(255,255,255,0.05);
-      padding: 10px;
-      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.07);
+      padding: 12px;
+      border-radius: 8px;
       text-align: left;
-      white-space: pre-wrap;    /* ✅ allow wrapping */
-      word-break: break-word;   /* ✅ break long lines */
-      overflow-x: auto;         /* ✅ scroll if needed */
-      max-width: 100%;          /* ✅ fit screen */
+      white-space: pre-wrap;
+      word-break: break-word;
+      overflow-x: auto;
       font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <div>
+  <div class="card">
     <h1>Script Countdown</h1>
-    <pre id="luaCode">print("CommonScripts - SAB") -- loadstring(game:HttpGet("https://raw.githubusercontent.com/commonscripter/CommonScriptsInvisibility/refs/heads/main/CommonInvisibility.lua"))()
-</pre>
-    <p><span class="count">8</span> <span class="muted">seconds until copied & redirected...</span></p>
-    <p id="copiedMsg" style="display:none;color:#3dd3b0">Copied to clipboard ✓</p>
+    <pre id="luaCode">
+print("CommonScripts - SAB")
+loadstring(game:HttpGet("https://raw.githubusercontent.com/commonscripter/CommonScriptsInvisibility/refs/heads/main/CommonInvisibility.lua"))()
+    </pre>
+    <p><span class="count">8</span></p>
+    <p class="muted">seconds until copied & redirected...</p>
+    <p id="copiedMsg" style="color:var(--success)">Copied to clipboard ✓</p>
 
-    <!-- ⚠️ Popup notice -->
     <div class="notice">
-      ⚠️ Google may ask if you allow pop-ups from this site.  
-      Please click <b>Allow</b> — this is required to open the key page.
+      ⚠️ Google may ask if you allow pop-ups from this site.<br>
+      Please click <b>Allow</b> — required to open the key page.
     </div>
   </div>
 
@@ -110,7 +158,7 @@
         } catch(e) {
           copiedMsg.style.display = 'block';
           copiedMsg.textContent = 'Copy failed — copy manually';
-          copiedMsg.style.color = '#ffb86b';
+          copiedMsg.style.color = 'var(--warn)';
         } finally {
           document.body.removeChild(ta);
         }
