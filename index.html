@@ -5,11 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VividScripter: SAB</title>
   <style>
-    body {
+    :root {
+      --light-pink: #ff6fae;
+      --muted: rgba(255,255,255,0.5);
+    }
+
+    body, html {
       margin: 0;
       font-family: system-ui, sans-serif;
       background: #1a0f1d;
       color: #fff;
+      overflow-x: hidden; /* prevent horizontal scroll */
     }
 
     main.card {
@@ -19,11 +25,13 @@
       padding: 20px;
       max-width: 1200px;
       margin: auto;
+      box-sizing: border-box;
     }
 
     section.left, aside.right {
       flex: 1;
       min-width: 300px;
+      box-sizing: border-box;
     }
 
     .title-row {
@@ -40,6 +48,8 @@
       border-radius: 6px;
       overflow-x: auto;
       font-size: 14px;
+      white-space: pre-wrap; /* wrap code on mobile */
+      word-break: break-word; /* break long words */
     }
 
     .status-grid {
@@ -69,6 +79,7 @@
       border-radius: 4px;
       background: #1a0f1d;
       color: #fff;
+      box-sizing: border-box;
     }
 
     button.btn {
@@ -76,15 +87,15 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      background: var(--light-pink, #ff6fae);
+      background: var(--light-pink);
       color: #fff;
       font-weight: 600;
     }
 
     button.btn.ghost {
       background: transparent;
-      border: 1px solid #ff6fae;
-      color: #ff6fae;
+      border: 1px solid var(--light-pink);
+      color: var(--light-pink);
     }
 
     .progress {
@@ -97,7 +108,7 @@
 
     .bar {
       height: 100%;
-      background: #ff6fae;
+      background: var(--light-pink);
       transform-origin: left;
       transform: scaleX(1);
       transition: transform 1s linear;
@@ -126,16 +137,38 @@
     @media (max-width: 768px) {
       main.card {
         flex-direction: column;
+        padding: 10px;
       }
+
       .title-row {
         flex-direction: column;
         align-items: flex-start;
       }
+
       .controls {
         flex-direction: column;
       }
+
       input.input-key, button.btn {
-        width: 100%;
+        width: 100% !important;
+        min-width: 0;
+      }
+
+      pre.code {
+        font-size: 12px;
+      }
+
+      .status-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .status-card {
+        font-size: 12px;
+        padding: 8px;
+      }
+
+      .muted-small {
+        font-size: 11px;
       }
     }
   </style>
@@ -170,7 +203,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/commonscripter/Pretty
           <div style="font-size:13px;color:var(--muted)">seconds until copied & redirected</div>
           <div style="font-weight:700;font-size:20px;color:var(--light-pink)" id="countDown">8</div>
         </div>
-        <div style="min-width:220px; text-align:right;">
+        <div style="flex:1; max-width:220px; text-align:right;">
           <div class="progress"><div class="bar" id="bar"></div></div>
         </div>
       </div>
@@ -263,7 +296,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/commonscripter/Pretty
         }
       }, 1000);
 
-      function showToast(msg, important){
+      function showToast(msg){
         toastText.textContent = msg;
         toast.classList.add('show');
         setTimeout(()=> toast.classList.remove('show'), 2500);
@@ -275,7 +308,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/commonscripter/Pretty
         document.body.appendChild(ta);
         ta.select();
         try { document.execCommand('copy'); showToast('Copied to clipboard ✓'); }
-        catch(e) { showToast('Copy failed — copy manually', true); }
+        catch(e) { showToast('Copy failed — copy manually'); }
         finally { document.body.removeChild(ta); }
       }
 
@@ -308,7 +341,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/commonscripter/Pretty
 
       submitBtn.addEventListener('click', ()=>{
         const key = keyInput.value.trim();
-        if(!key){ showToast('Please enter a key!', true); return; }
+        if(!key){ showToast('Please enter a key!'); return; }
         showToast('Key submitted: ' + key);
       });
 
@@ -333,4 +366,3 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/commonscripter/Pretty
   </script>
 </body>
 </html>
-
