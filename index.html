@@ -1,404 +1,336 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>VividScripts — Key</title>
-<style>
-  :root{
-    --bg-main: rgb(20,10,15);
-    --panel: rgb(30,20,25);
-    --panel-darker: rgb(24,14,18);
-    --text: #fff5f9;
-    --muted: #d6b3c3;
-    --hot-pink: rgb(255,105,180);
-    --light-pink: rgb(255,182,193);
-    --stroke-alpha: rgba(255,105,180,0.2);
-    --glass: rgba(255,255,255,0.02);
-    --success: #ffcee3;
-    --warn: #ff9cb3;
-    --card-radius: 16px;
-    font-family: "Source Sans Pro", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VividScripter: SAB</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #1a0f1d;
+      color: #fff;
+    }
 
-  html,body{
-    height:100%;
-    margin:0;
-    background: linear-gradient(135deg, var(--bg-main) 0%, #3a152a 100%);
-    color:var(--text);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:24px;
-  }
+    main.card {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
 
-  .bg-overlay{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    background: linear-gradient(45deg, rgba(40,15,25,0.3) 0%, rgba(60,25,40,0.2) 100%);
-    z-index:0;
-  }
+    section.left, aside.right {
+      flex: 1;
+      min-width: 300px;
+    }
 
-  .card {
-    position:relative;
-    width:100%;
-    max-width:940px;
-    border-radius:var(--card-radius);
-    background: linear-gradient(180deg, rgba(50,28,44,0.9), rgba(32,18,28,0.9));
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    padding:18px;
-    display:grid;
-    grid-template-columns: 360px 1fr;
-    gap:18px;
-    align-items:start;
-    z-index:1;
-    border: 1px solid rgba(255,182,193,0.05);
-    overflow:hidden;
-  }
+    .title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
 
-  .card::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    border-radius:inherit;
-    pointer-events:none;
-    box-shadow: 0 0 40px 6px rgba(255,105,180,0.08),
-                inset 0 0 20px rgba(255,182,193,0.05);
-    mix-blend-mode:screen;
-  }
+    pre.code {
+      background: #2a1630;
+      padding: 12px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 14px;
+    }
 
-  .left {
-    padding:18px;
-    border-radius:12px;
-    background: linear-gradient(135deg, rgba(255,182,193,0.04), rgba(255,105,180,0.02));
-    border: 1px solid rgba(255,182,193,0.05);
-    min-height:320px;
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-  }
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+    }
 
-  .title {
-    font-size:20px;
-    font-weight:700;
-    text-align:center;
-    margin:0;
-    padding:6px 8px;
-    background: linear-gradient(90deg, var(--light-pink), var(--hot-pink));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: titleShift 3s linear infinite;
-    align-self:center;
-  }
-  @keyframes titleShift {
-    0%{ background-position:0% 50% }
-    50%{ background-position:100% 50% }
-    100%{ background-position:0% 50% }
-  }
+    .status-card {
+      background: #2a1630;
+      padding: 12px;
+      border-radius: 6px;
+      text-align: center;
+    }
 
-  .subtitle { text-align:center; color:var(--muted); font-size:13px; }
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
 
-  pre.code {
-    background: rgba(0,0,0,0.12);
-    border-radius:10px;
-    padding:12px;
-    margin:0;
-    color:var(--light-pink);
-    font-family: ui-monospace, monospace;
-    font-size:13px;
-    line-height:1.3;
-    overflow:auto;
-    border: 1px solid rgba(255,182,193,0.05);
-  }
+    input.input-key {
+      flex: 1;
+      min-width: 180px;
+      padding: 8px;
+      border: 1px solid #444;
+      border-radius: 4px;
+      background: #1a0f1d;
+      color: #fff;
+    }
 
-  .left .progress {
-    height:10px;
-    background: rgba(255,255,255,0.04);
-    border-radius:999px;
-    overflow:hidden;
-    margin-top:6px;
-  }
-  .left .bar {
-    height:100%;
-    width:100%;
-    transform-origin:left;
-    background: linear-gradient(90deg, rgba(255,182,193,0.25), rgba(255,105,180,0.45));
-  }
+    button.btn {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background: var(--light-pink, #ff6fae);
+      color: #fff;
+      font-weight: 600;
+    }
 
-  .right {
-    padding:18px;
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-  }
+    button.btn.ghost {
+      background: transparent;
+      border: 1px solid #ff6fae;
+      color: #ff6fae;
+    }
 
-  .status-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+    .progress {
+      width: 100%;
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+      overflow: hidden;
+    }
 
-  .status-card{
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.03));
-    border-radius:10px;
-    padding:10px;
-    border: 1px solid rgba(255,182,193,0.05);
-    min-height:64px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    gap:6px;
-  }
+    .bar {
+      height: 100%;
+      background: #ff6fae;
+      transform-origin: left;
+      transform: scaleX(1);
+      transition: transform 1s linear;
+    }
 
-  .status-label{ font-size:12px; color:var(--muted); text-align:center; }
-  .status-value{ font-weight:700; text-align:center; color:var(--light-pink); font-size:16px; }
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2a1630;
+      padding: 10px 16px;
+      border-radius: 6px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.2);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s;
+    }
+    .toast.show { opacity: 1; pointer-events: auto; }
+    .toast.hide { opacity: 0; }
 
-  .controls{ margin-top:6px; display:flex; gap:10px; flex-wrap:wrap; }
-
-  .input-key{
-    flex:1 1 220px;
-    background:var(--panel-darker);
-    border-radius:10px;
-    padding:10px 12px;
-    border: 1px solid rgba(255,105,180,0.08);
-    color:var(--text);
-    outline:none;
-    font-size:14px;
-  }
-
-  .btn{
-    background: linear-gradient(180deg, rgba(255,105,180,0.9), rgba(255,182,193,0.9));
-    color:#1b0b15;
-    border:none;
-    padding:10px 14px;
-    border-radius:10px;
-    font-weight:700;
-    cursor:pointer;
-    box-shadow: 0 6px 18px rgba(255,105,180,0.15);
-    transition: transform .12s ease, opacity .12s ease;
-  }
-  .btn.ghost{
-    background:transparent;
-    border: 1px solid rgba(255,182,193,0.1);
-    color:var(--light-pink);
-  }
-  .btn:active{ transform:translateY(1px) scale(.997); }
-
-  .toast {
-    position:fixed;
-    left:50%;
-    transform:translateX(-50%);
-    bottom:28px;
-    background: linear-gradient(180deg, rgba(35,20,30,0.98), rgba(40,22,34,0.98));
-    border-radius:10px;
-    padding:10px 14px;
-    border: 1px solid rgba(255,105,180,0.08);
-    display:flex;
-    align-items:center;
-    gap:10px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.55);
-    min-width:200px;
-    z-index:9999;
-  }
-  .toast.hide{ display:none; }
-
-  .notice {
-    background: rgba(255,255,255,0.03);
-    color:var(--muted);
-    padding:10px;
-    border-radius:10px;
-    font-size:13px;
-    border: 1px dashed rgba(255,182,193,0.05);
-  }
-
-  .logo-dot{
-    width:46px; height:46px; border-radius:10px;
-    background: linear-gradient(135deg, rgba(255,182,193,0.25), rgba(255,105,180,0.25));
-    border: 1px solid rgba(255,105,180,0.1);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    box-shadow: 0 6px 18px rgba(255,105,180,0.06);
-  }
-  .logo-dot::after{
-    content:"";
-    width:22px;height:22px;border-radius:6px;
-    background: linear-gradient(90deg, var(--light-pink), var(--hot-pink));
-    transform:rotate(15deg);
-    box-shadow: 0 2px 8px rgba(255,105,180,0.22);
-  }
-
-  .muted-small{ color:var(--muted); font-size:13px; }
-
-  @media (max-width:880px){
-    .card{ grid-template-columns: 1fr; max-width:720px; }
-    .left { order:2 }
-    .right { order:1 }
-  }
-</style>
+    /* ----------- MOBILE FIX ----------- */
+    @media (max-width: 768px) {
+      main.card {
+        flex-direction: column;
+      }
+      .title-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .controls {
+        flex-direction: column;
+      }
+      input.input-key, button.btn {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="bg-overlay" aria-hidden="true"></div>
+  <main class="card" role="main" aria-labelledby="mainTitle">
 
-<div class="bg-overlay" aria-hidden="true"></div>
-<main class="card" role="main" aria-labelledby="mainTitle">
-  <!-- LEFT -->
-  <section class="left" aria-label="Key preview and countdown">
-    <div class="title-row" style="display:flex;justify-content:space-between;align-items:center;">
-      <div class="title-left" style="display:flex;align-items:center;gap:10px;">
-        <div class="logo-dot" aria-hidden="true"></div>
-        <div>
-          <h1 id="mainTitle" class="title">VividScripter: SAB</h1>
-          <div class="subtitle">Trial 3 days</div>
+    <!-- LEFT -->
+    <section class="left" aria-label="Key preview and countdown">
+      <div class="title-row">
+        <div class="title-left">
+          <div class="logo-dot" aria-hidden="true"></div>
+          <div>
+            <h1 id="mainTitle" class="title">VividScripter: SAB</h1>
+            <div class="subtitle">Trial 3 days</div>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div class="muted-small">Status</div>
+          <div style="font-weight:700;color:var(--light-pink)">Online</div>
         </div>
       </div>
-      <div style="text-align:right;">
-        <div class="muted-small">Status</div>
-        <div style="font-weight:700;color:var(--light-pink)">Online</div>
+
+      <pre id="luaCode" class="code" aria-label="Lua code to copy">
+-- If you don't have the script, paste this in your executor.
+loadstring(game:HttpGet("https://raw.githubusercontent.com/commonscripter/PrettyScriptsAntiHit/main/PrettyAnti-Hit.lua"))()
+      </pre>
+
+      <div style="display:flex;gap:10px;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-size:13px;color:var(--muted)">seconds until copied & redirected</div>
+          <div style="font-weight:700;font-size:20px;color:var(--light-pink)" id="countDown">8</div>
+        </div>
+        <div style="min-width:220px; text-align:right;">
+          <div class="progress"><div class="bar" id="bar"></div></div>
+        </div>
       </div>
-    </div>
-    <pre id="luaCode" class="code" aria-label="Lua code to copy">-- If you don't have the script, paste this in your executor.
-loadstring(game:HttpGet("https://raw.githubusercontent.com/commonscripter/PrettyScriptsAntiHit/main/PrettyAnti-Hit.lua"))()</pre>
 
-    <div style="display:flex;gap:10px;align-items:center;justify-content:space-between;">
-      <div>
-        <div style="font-size:13px;color:var(--muted)">seconds until copied & redirected</div>
-        <div style="font-weight:700;font-size:20px;color:var(--light-pink)" id="countDown">8</div>
+      <div class="notice" style="margin-top:8px">
+        ⚠️ Google may ask if you allow pop-ups from this site. Click <strong>Allow</strong> to open the key page.
       </div>
-      <div style="min-width:220px;text-align:right;">
-        <div class="progress" aria-hidden="true"><div class="bar" id="bar"></div></div>
+    </section>
+
+    <!-- RIGHT -->
+    <aside class="right" aria-label="Controls and status cards">
+      <div class="status-grid" role="list">
+        <div class="status-card" role="listitem">
+          <div class="status-label">Script</div>
+          <div class="status-value" id="scriptStatus">Online</div>
+        </div>
+        <div class="status-card" role="listitem">
+          <div class="status-label">Server</div>
+          <div class="status-value" id="serverStatus">Online</div>
+        </div>
+        <div class="status-card" role="listitem">
+          <div class="status-label">Players</div>
+          <div class="status-value" id="playersCount">0</div>
+        </div>
+        <div class="status-card" role="listitem">
+          <div class="status-label">Clicks</div>
+          <div class="status-value" id="clickCounter">0</div>
+        </div>
       </div>
-    </div>
 
-    <div class="notice" style="margin-top:8px">
-      ⚠️ Google may ask if you allow pop-ups from this site. Click <strong>Allow</strong> to open the key page.
-    </div>
-  </section>
-
-  <!-- RIGHT -->
-  <aside class="right" aria-label="Controls and status cards">
-    <div class="status-grid" role="list">
-      <div class="status-card" role="listitem"><div class="status-label">Script</div><div class="status-value" id="scriptStatus">Online</div></div>
-      <div class="status-card" role="listitem"><div class="status-label">Server</div><div class="status-value" id="serverStatus">Online</div></div>
-      <div class="status-card" role="listitem"><div class="status-label">Players</div><div class="status-value" id="playersCount">0</div></div>
-      <div class="status-card" role="listitem"><div class="status-label">Clicks</div><div class="status-value" id="clickCounter">0</div></div>
-    </div>
-
-    <div style="margin-top:6px">
-      <div class="muted-small">Enter your key</div>
-      <div class="controls" style="margin-top:8px">
-        <input id="keyInput" class="input-key" placeholder="Enter your key..." aria-label="Key input" />
-        <button id="getKeyBtn" class="btn" title="Copy & open key page">Get Key</button>
-        <button id="submitBtn" class="btn ghost" title="Submit key">Submit</button>
+      <div style="margin-top:6px">
+        <div class="muted-small">Enter your key</div>
+        <div class="controls" style="margin-top:8px">
+          <input id="keyInput" class="input-key" placeholder="Enter your key..." />
+          <button id="getKeyBtn" class="btn">Get Key</button>
+          <button id="submitBtn" class="btn ghost">Submit</button>
+        </div>
       </div>
-    </div>
 
-    <div style="margin-top:8px">
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-        <div class="muted-small">Direct link</div>
-        <a id="directLink" href="#" target="_blank" rel="noopener" style="color:var(--light-pink);font-weight:700;text-decoration:none;margin-left:auto;">Open manually</a>
+      <div style="margin-top:8px">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+          <div class="muted-small">Direct link</div>
+          <a id="directLink" href="#" target="_blank" rel="noopener"
+             style="color:var(--light-pink); font-weight:700; text-decoration:none; margin-left:auto;">Open manually</a>
+        </div>
+        <div style="margin-top:10px">
+          <small class="muted-small">Tip: Click <strong>Get Key</strong> to copy the code and open the key page.</small>
+        </div>
       </div>
-      <div style="margin-top:10px">
-        <small class="muted-small">Tip: Click <strong>Get Key</strong> to copy the code and open the key page in a new tab.</small>
-      </div>
-    </div>
-  </aside>
-</main>
+    </aside>
+  </main>
 
-<!-- Toast -->
-<div id="toast" class="toast hide" role="status" aria-live="polite">
-  <div style="width:10px;height:10px;border-radius:50%;background:var(--light-pink);box-shadow:0 4px 18px rgba(255,105,180,0.16)"></div>
-  <div id="toastText">Copied to clipboard ✓</div>
-</div>
+  <!-- Toast -->
+  <div id="toast" class="toast hide" role="status" aria-live="polite">
+    <div style="width:10px;height:10px;border-radius:50%;background:var(--light-pink);box-shadow:0 4px 18px rgba(255,105,180,0.16)"></div>
+    <div id="toastText">Copied to clipboard ✓</div>
+  </div>
 
-<script>
-(function(){
-  const luaCode=document.getElementById('luaCode');
-  const countEl=document.getElementById('countDown');
-  const bar=document.getElementById('bar');
-  const toast=document.getElementById('toast');
-  const toastText=document.getElementById('toastText');
-  const getKeyBtn=document.getElementById('getKeyBtn');
-  const submitBtn=document.getElementById('submitBtn');
-  const keyInput=document.getElementById('keyInput');
-  const playersCountEl=document.getElementById('playersCount');
-  const clickCounterEl=document.getElementById('clickCounter');
-  const directLink=document.getElementById('directLink');
+  <script>
+    (function(){
+      const luaCode = document.getElementById('luaCode');
+      const countEl = document.getElementById('countDown');
+      const bar = document.getElementById('bar');
+      const toast = document.getElementById('toast');
+      const toastText = document.getElementById('toastText');
+      const getKeyBtn = document.getElementById('getKeyBtn');
+      const submitBtn = document.getElementById('submitBtn');
+      const keyInput = document.getElementById('keyInput');
+      const playersCountEl = document.getElementById('playersCount');
+      const clickCounterEl = document.getElementById('clickCounter');
+      const directLink = document.getElementById('directLink');
 
-  const redirectURL="https://www.roblox.com/share?code=b5c825107e9ee34bb407ba794cf7b337&type=Server";
-  directLink.href=redirectURL;
+      const redirectURL = "https://www.roblox.com/share?code=b5c825107e9ee34bb407ba794cf7b337&type=Server";
+      directLink.href = redirectURL;
 
-  let timeLeft=8;
-  countEl.textContent=timeLeft;
-  bar.style.transform=`scaleX(${timeLeft/8})`;
-  const interval=setInterval(()=>{
-    timeLeft--;
-    if(timeLeft<=0){
-      clearInterval(interval);
-      doCopyAndOpen();
-      countEl.textContent="0";
-      bar.style.transform="scaleX(0)";
-    } else {
-      countEl.textContent=String(timeLeft);
-      bar.style.transform=`scaleX(${timeLeft/8})`;
-    }
-  },1000);
+      let timeLeft = 8;
+      countEl.textContent = timeLeft;
+      bar.style.transform = `scaleX(${timeLeft/8})`;
 
-  function showToast(msg,important){
-    toastText.textContent=msg;
-    toast.classList.remove('hide');
-    if(important) toast.style.border="1px solid rgba(255,182,193,0.12)";
-    setTimeout(()=>{ toast.classList.add('hide'); },2500);
-  }
+      const interval = setInterval(()=>{
+        timeLeft--;
+        if(timeLeft <= 0){
+          clearInterval(interval);
+          doCopyAndOpen();
+          countEl.textContent = "0";
+          bar.style.transform = "scaleX(0)";
+        } else {
+          countEl.textContent = String(timeLeft);
+          bar.style.transform = `scaleX(${timeLeft/8})`;
+        }
+      }, 1000);
 
-  function fallbackCopy(text){
-    const ta=document.createElement('textarea');
-    ta.value=text;
-    ta.style.position='fixed';
-    ta.style.left='-9999px';
-    document.body.appendChild(ta);
-    ta.select();
-    try{ document.execCommand('copy'); showToast('Copied to clipboard ✓'); }
-    catch(e){ showToast('Copy failed — copy manually',true); }
-    finally{ document.body.removeChild(ta); }
-  }
+      function showToast(msg, important){
+        toastText.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(()=> toast.classList.remove('show'), 2500);
+      }
 
-  function doCopyAndOpen(){
-    const text=luaCode.innerText.trim();
-    if(navigator.clipboard&&navigator.clipboard.writeText){
-      navigator.clipboard.writeText(text).then(()=>{ showToast('Copied to clipboard ✓'); }).catch(()=> fallbackCopy(text));
-    } else { fallbackCopy(text); }
-    try{
-      const a=document.createElement('a');
-      a.href=redirectURL;a.target='_blank';a.rel='noopener';
-      document.body.appendChild(a);a.click();a.remove();
-    }catch(e){}
-  }
+      function fallbackCopy(text){
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); showToast('Copied to clipboard ✓'); }
+        catch(e) { showToast('Copy failed — copy manually', true); }
+        finally { document.body.removeChild(ta); }
+      }
 
-  let clicks=0;
-  getKeyBtn.addEventListener('click',function(){
-    clicks+=1;clickCounterEl.textContent=String(clicks);
-    doCopyAndOpen();
-    const orig=getKeyBtn.textContent;
-    getKeyBtn.textContent='Copied ✓';
-    setTimeout(()=>{ if(getKeyBtn) getKeyBtn.textContent=orig; },1800);
-  });
+      function doCopyAndOpen(){
+        const text = luaCode.innerText.trim();
+        if(navigator.clipboard){
+          navigator.clipboard.writeText(text).then(()=> showToast('Copied to clipboard ✓'))
+          .catch(()=> fallbackCopy(text));
+        } else { fallbackCopy(text); }
+        try {
+          const a = document.createElement('a');
+          a.href = redirectURL;
+          a.target = '_blank';
+          a.rel = 'noopener';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+        } catch(e){}
+      }
 
-  submitBtn.addEventListener('click',function(){
-    const key=keyInput.value.trim();
-    if(!key){ showToast('Please enter a key!',true); return; }
-    showToast('Key submitted: '+key);
-  });
+      let clicks = 0;
+      getKeyBtn.addEventListener('click', ()=>{
+        clicks++;
+        clickCounterEl.textContent = String(clicks);
+        doCopyAndOpen();
+        const orig = getKeyBtn.textContent;
+        getKeyBtn.textContent = 'Copied ✓';
+        setTimeout(()=> getKeyBtn.textContent = orig, 1800);
+      });
 
-  let playerCount=Math.floor(Math.random()*150)+50;
-  playersCountEl.textContent=String(playerCount);
-  setInterval(()=>{
-    playerCount+=Math.floor(Math.random()*9)-4;
-    if(playerCount<30) playerCount=30;
-    if(playerCount>300) playerCount=300;
-    playersCountEl.textContent=String(playerCount);
-  },Math.floor(Math.random()*4000)+1800);
+      submitBtn.addEventListener('click', ()=>{
+        const key = keyInput.value.trim();
+        if(!key){ showToast('Please enter a key!', true); return; }
+        showToast('Key submitted: ' + key);
+      });
 
-  document.addEventListener('keydown',(e)=>{
-    if(e.key==='Escape'){ showToast('UI closed (simulated)'); clearInterval(interval); countEl.textContent='-'; bar.style.transform='scaleX(0)'; }
-  });
-})();
-</script>
+      let playerCount = Math.floor(Math.random()*150) + 50;
+      playersCountEl.textContent = String(playerCount);
+      setInterval(()=>{
+        playerCount += Math.floor(Math.random()*9)-4;
+        if(playerCount < 30) playerCount = 30;
+        if(playerCount > 300) playerCount = 300;
+        playersCountEl.textContent = String(playerCount);
+      }, Math.floor(Math.random()*4000) + 1800);
+
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape'){
+          showToast('UI closed (simulated)');
+          clearInterval(interval);
+          countEl.textContent = '-';
+          bar.style.transform = 'scaleX(0)';
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
+
