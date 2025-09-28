@@ -11,12 +11,12 @@
     --panel-darker: rgb(24,14,18);
     --text: #fff5f9;
     --muted: #bda9b0;
-    --hot-pink: rgb(255,105,180);    /* script hot pink */
-    --light-pink: rgb(255,182,193);  /* script light pink */
+    --accent: rgb(255,105,180);      /* hot pink */
+    --accent2: rgb(255,182,193);     /* light pink */
     --stroke-alpha: rgba(255,105,180,0.18);
     --glass: rgba(255,255,255,0.02);
-    --success: #9be6b4;
-    --warn: #ff8b8b;
+    --success: #ffb7d5;
+    --warn: #ff8ba0;
     --card-radius: 16px;
     font-family: "Source Sans Pro", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
   }
@@ -26,15 +26,12 @@
     margin:0;
     background: linear-gradient(135deg, var(--bg-main) 0%, #321925 100%);
     color:var(--text);
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
     display:flex;
     align-items:center;
     justify-content:center;
     padding:24px;
   }
 
-  /* faint panel overlay like your ScreenGui background */
   .bg-overlay{
     position:fixed;
     inset:0;
@@ -54,48 +51,39 @@
     display:grid;
     grid-template-columns: 360px 1fr;
     gap:18px;
-    align-items:start;
-    z-index:1;
-    border: 1px solid rgba(255,182,193,0.04);
-    overflow:hidden;
+    border: 1px solid rgba(255,182,193,0.08);
   }
 
-  /* glowing stroke similar to UIStroke */
   .card::before{
     content:"";
     position:absolute;
     inset:0;
     border-radius:inherit;
     pointer-events:none;
-    box-shadow: 0 0 40px 6px rgba(255,105,180,0.06), inset 0 0 20px rgba(255,182,193,0.03);
+    box-shadow: 0 0 40px 6px rgba(255,105,180,0.08), inset 0 0 20px rgba(255,182,193,0.04);
     mix-blend-mode:screen;
   }
 
-  /* left column: visual panel */
   .left {
     padding:18px;
     border-radius:12px;
-    background: linear-gradient(135deg, rgba(255,182,193,0.02), rgba(255,105,180,0.01));
-    border: 1px solid rgba(255,182,193,0.03);
-    min-height:320px;
+    background: linear-gradient(135deg, rgba(255,182,193,0.03), rgba(255,105,180,0.02));
+    border: 1px solid rgba(255,182,193,0.06);
     display:flex;
     flex-direction:column;
     gap:12px;
   }
 
-  /* animated title gradient */
   .title {
     font-size:20px;
     font-weight:700;
     letter-spacing:0.6px;
     text-align:center;
     margin:0;
-    padding:6px 8px;
-    background: linear-gradient(90deg, var(--light-pink), var(--hot-pink));
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: titleShift 3s linear infinite;
-    align-self:center;
   }
   @keyframes titleShift {
     0%{ background-position:0% 50% }
@@ -103,412 +91,122 @@
     100%{ background-position:0% 50% }
   }
 
-  .subtitle {
-    text-align:center;
-    color:var(--muted);
-    font-size:13px;
-  }
+  .subtitle { text-align:center; color:var(--muted); font-size:13px; }
 
-  /* "code" box */
   pre.code {
     background: rgba(0,0,0,0.12);
     border-radius:10px;
     padding:12px;
-    margin:0;
-    color:var(--light-pink);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+    color:var(--accent2);
     font-size:13px;
     line-height:1.3;
-    overflow:auto;
-    border: 1px solid rgba(255,182,193,0.04);
+    border: 1px solid rgba(255,182,193,0.06);
   }
 
   .left .progress {
     height:10px;
-    background: rgba(255,255,255,0.03);
+    background: rgba(255,255,255,0.05);
     border-radius:999px;
     overflow:hidden;
-    margin-top:6px;
   }
   .left .bar {
     height:100%;
     width:100%;
+    background: linear-gradient(90deg, rgba(255,182,193,0.4), rgba(255,105,180,0.5));
     transform-origin:left;
-    transform:scaleX(1);
-    transition:transform 1s linear;
-    background: linear-gradient(90deg, rgba(255,182,193,0.18), rgba(255,105,180,0.35));
-  }
-
-  /* right column - status + controls */
-  .right {
-    padding:18px;
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-  }
-
-  .status-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
   }
 
   .status-card{
-    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.05));
     border-radius:10px;
     padding:10px;
-    border: 1px solid rgba(255,182,193,0.03);
-    position:relative;
-    overflow:hidden;
-    min-height:64px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    gap:6px;
+    border: 1px solid rgba(255,182,193,0.06);
+    text-align:center;
   }
-
-  .status-label{ font-size:12px; color:var(--muted); text-align:center; }
-  .status-value{ font-weight:700; text-align:center; color:var(--light-pink); font-size:16px; }
-
-  .controls{
-    margin-top:6px;
-    display:flex;
-    gap:10px;
-    align-items:center;
-    flex-wrap:wrap;
-  }
+  .status-label{ font-size:12px; color:var(--muted); }
+  .status-value{ font-weight:700; font-size:16px; color:var(--accent2); }
 
   .input-key{
-    flex:1 1 220px;
+    flex:1;
     background:var(--panel-darker);
     border-radius:10px;
     padding:10px 12px;
-    border: 1px solid rgba(255,105,180,0.06);
+    border: 1px solid rgba(255,105,180,0.12);
     color:var(--text);
-    outline:none;
-    font-size:14px;
   }
 
   .btn{
-    background: linear-gradient(180deg, rgba(255,105,180,0.85), rgba(255,182,193,0.85));
+    background: linear-gradient(180deg, var(--accent), var(--accent2));
     color:#1b0b10;
     border:none;
     padding:10px 14px;
     border-radius:10px;
     font-weight:700;
     cursor:pointer;
-    box-shadow: 0 6px 18px rgba(255,105,180,0.12);
-    transition: transform .12s ease, opacity .12s ease;
+    box-shadow: 0 6px 18px rgba(255,105,180,0.2);
   }
   .btn.ghost{
     background:transparent;
-    border: 1px solid rgba(255,182,193,0.08);
-    color:var(--light-pink);
-    box-shadow:none;
+    border: 1px solid rgba(255,182,193,0.12);
+    color:var(--accent2);
   }
-  .btn:active{ transform:translateY(1px) scale(.997); }
 
-  /* toast */
   .toast {
     position:fixed;
     left:50%;
     transform:translateX(-50%);
     bottom:28px;
-    background: linear-gradient(180deg, rgba(30,20,25,0.98), rgba(35,22,28,0.98));
+    background: rgba(30,20,25,0.95);
     border-radius:10px;
     padding:10px 14px;
-    border: 1px solid rgba(255,105,180,0.07);
+    border: 1px solid rgba(255,105,180,0.1);
     display:flex;
     align-items:center;
     gap:10px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-    min-width:200px;
-    z-index:9999;
-  }
-  .toast.hide{ display:none; }
-
-  .notice {
-    background: rgba(255,255,255,0.02);
-    color:var(--muted);
-    padding:10px;
-    border-radius:10px;
-    font-size:13px;
-    border: 1px dashed rgba(255,182,193,0.03);
-  }
-
-  .title-row{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-  }
-
-  .title-left{
-    display:flex;
-    align-items:center;
-    gap:10px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
   }
 
   .logo-dot{
     width:46px; height:46px; border-radius:10px;
-    background: linear-gradient(135deg, rgba(255,182,193,0.22), rgba(255,105,180,0.20));
-    border: 1px solid rgba(255,105,180,0.08);
+    background: linear-gradient(135deg, rgba(255,182,193,0.3), rgba(255,105,180,0.25));
+    border: 1px solid rgba(255,105,180,0.12);
     display:flex;
     align-items:center;
     justify-content:center;
-    box-shadow: 0 6px 18px rgba(255,105,180,0.04);
   }
   .logo-dot::after{
     content:"";
     width:22px;height:22px;border-radius:6px;
-    background: linear-gradient(90deg, var(--light-pink), var(--hot-pink));
-    transform:rotate(15deg);
-    box-shadow: 0 2px 8px rgba(255,105,180,0.18);
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    box-shadow: 0 2px 8px rgba(255,105,180,0.2);
   }
 
-  .muted-small{ color:var(--muted); font-size:13px; }
-
-  /* small screens */
   @media (max-width:880px){
-    .card{ grid-template-columns: 1fr; max-width:720px; }
-    .left { order:2 }
-    .right { order:1 }
+    .card{ grid-template-columns: 1fr; }
+    .left{ order:2 }
+    .right{ order:1 }
   }
 </style>
 </head>
 <body>
-  <div class="bg-overlay" aria-hidden="true"></div>
-
-  <main class="card" role="main" aria-labelledby="mainTitle">
-    <!-- LEFT: code, countdown -->
-    <section class="left" aria-label="Key preview and countdown">
-      <div class="title-row">
-        <div class="title-left">
-          <div class="logo-dot" aria-hidden="true"></div>
-          <div>
-            <h1 id="mainTitle" class="title">VividScripter: SAB</h1>
-            <div class="subtitle">Trial 3 days</div>
-          </div>
-        </div>
-
-        <div style="text-align:right;">
-          <div class="muted-small">Status</div>
-          <div style="font-weight:700;color:var(--light-pink)">Online</div>
-        </div>
-      </div>
-
-      <pre id="luaCode" class="code" aria-label="Lua code to copy">
--- If you don't have the script, paste this in your executor.
-loadstring(game:HttpGet("https://raw.githubusercontent.com/commonscripter/PrettyScriptsAntiHit/main/PrettyAnti-Hit.lua"))()
-      </pre>
-
-      <div style="display:flex;gap:10px;align-items:center;justify-content:space-between;">
-        <div>
-          <div style="font-size:13px;color:var(--muted)">seconds until copied & redirected</div>
-          <div style="font-weight:700;font-size:20px;color:var(--light-pink)" id="countDown">8</div>
-        </div>
-
-        <div style="min-width:220px; text-align:right;">
-          <div class="progress" aria-hidden="true"><div class="bar" id="bar"></div></div>
-        </div>
-      </div>
-
-      <div class="notice" style="margin-top:8px">
-        ⚠️ Google may ask if you allow pop-ups from this site. Click <strong>Allow</strong> to open the key page.
-      </div>
+  <div class="bg-overlay"></div>
+  <main class="card">
+    <section class="left">
+      <h1 class="title">VividScripter: SAB</h1>
+      <div class="subtitle">Trial 3 days</div>
+      <pre class="code">loadstring(game:HttpGet("https://raw.githubusercontent.com/commonscripter/PrettyScriptsAntiHit/main/PrettyAnti-Hit.lua"))()</pre>
+      <div class="progress"><div class="bar"></div></div>
     </section>
-
-    <!-- RIGHT: statuses + inputs -->
-    <aside class="right" aria-label="Controls and status cards">
-      <div class="status-grid" role="list">
-        <div class="status-card" role="listitem" aria-label="Script status">
-          <div class="status-label">Script</div>
-          <div class="status-value" id="scriptStatus">Online</div>
-        </div>
-
-        <div class="status-card" role="listitem" aria-label="Server status">
-          <div class="status-label">Server</div>
-          <div class="status-value" id="serverStatus">Online</div>
-        </div>
-
-        <div class="status-card" role="listitem" aria-label="Players count">
-          <div class="status-label">Players</div>
-          <div class="status-value" id="playersCount">0</div>
-        </div>
-
-        <div class="status-card" role="listitem" aria-label="Click counter">
-          <div class="status-label">Clicks</div>
-          <div class="status-value" id="clickCounter">0</div>
-        </div>
+    <aside class="right">
+      <div class="status-card">
+        <div class="status-label">Script</div>
+        <div class="status-value">Online</div>
       </div>
-
-      <div style="margin-top:6px">
-        <div class="muted-small">Enter your key</div>
-        <div class="controls" style="margin-top:8px">
-          <input id="keyInput" class="input-key" placeholder="Enter your key..." aria-label="Key input" />
-          <button id="getKeyBtn" class="btn" title="Copy & open key page">Get Key</button>
-          <button id="submitBtn" class="btn ghost" title="Submit key">Submit</button>
-        </div>
-      </div>
-
-      <div style="margin-top:8px">
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-          <div class="muted-small">Direct link</div>
-          <a id="directLink" href="#" target="_blank" rel="noopener" style="color:var(--light-pink); font-weight:700; text-decoration:none; margin-left:auto;">Open manually</a>
-        </div>
-
-        <div style="margin-top:10px">
-          <small class="muted-small">Tip: Click <strong>Get Key</strong> to copy the code and open the key page in a new tab.</small>
-        </div>
+      <div class="status-card">
+        <div class="status-label">Server</div>
+        <div class="status-value">Online</div>
       </div>
     </aside>
   </main>
-
-  <!-- toast -->
-  <div id="toast" class="toast hide" role="status" aria-live="polite">
-    <div style="width:10px;height:10px;border-radius:50%;background:var(--light-pink);box-shadow:0 4px 18px rgba(255,105,180,0.16)"></div>
-    <div id="toastText">Copied to clipboard ✓</div>
-  </div>
-
-<script>
-(function(){
-  // Elements
-  const luaCode = document.getElementById('luaCode');
-  const countEl = document.getElementById('countDown');
-  const bar = document.getElementById('bar');
-  const toast = document.getElementById('toast');
-  const toastText = document.getElementById('toastText');
-  const getKeyBtn = document.getElementById('getKeyBtn');
-  const submitBtn = document.getElementById('submitBtn');
-  const keyInput = document.getElementById('keyInput');
-  const playersCountEl = document.getElementById('playersCount');
-  const clickCounterEl = document.getElementById('clickCounter');
-  const directLink = document.getElementById('directLink');
-
-  // Configurable redirect URL (set to a safe placeholder; you can replace)
-  const redirectURL = "https://commonscripter.github.io/keysystem/"; // change as needed
-  directLink.href = redirectURL;
-
-  // Countdown behaviour (visually like your page)
-  let timeLeft = 8;
-  countEl.textContent = timeLeft;
-  bar.style.transform = `scaleX(${timeLeft/8})`;
-
-  const interval = setInterval(()=>{
-    timeLeft--;
-    if(timeLeft <= 0){
-      clearInterval(interval);
-      doCopyAndOpen(); // perform copy & open once countdown finishes
-      countEl.textContent = "0";
-      bar.style.transform = "scaleX(0)";
-    } else {
-      countEl.textContent = String(timeLeft);
-      bar.style.transform = `scaleX(${timeLeft/8})`;
-    }
-  }, 1000);
-
-  // Toast utility
-  function showToast(msg, important){
-    toastText.textContent = msg;
-    toast.classList.remove('hide');
-    if(important) toast.style.border = "1px solid rgba(255,182,193,0.12)";
-    setTimeout(()=>{ toast.classList.add('hide'); }, 2500);
-  }
-
-  // Copy fallback
-  function fallbackCopy(text){
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.left = '-9999px';
-    document.body.appendChild(ta);
-    ta.select();
-    try {
-      document.execCommand('copy');
-      showToast('Copied to clipboard ✓');
-    } catch(e) {
-      showToast('Copy failed — copy manually', true);
-    } finally {
-      document.body.removeChild(ta);
-    }
-  }
-
-  // copy text & open link
-  function doCopyAndOpen(){
-    const text = luaCode.innerText.trim();
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(text).then(()=>{
-        showToast('Copied to clipboard ✓');
-      }).catch(()=> fallbackCopy(text));
-    } else {
-      fallbackCopy(text);
-    }
-
-    // open the redirect in a new tab (user-initiated in many browsers; still works in most)
-    try {
-      const a = document.createElement('a');
-      a.href = redirectURL;
-      a.target = '_blank';
-      a.rel = 'noopener';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    } catch(e){
-      // silent
-    }
-  }
-
-  // Button interactions
-  let clicks = 0;
-  getKeyBtn.addEventListener('click', function(){
-    clicks += 1;
-    clickCounterEl.textContent = String(clicks);
-    // copy lua code and open link
-    doCopyAndOpen();
-
-    // temporary label change
-    const orig = getKeyBtn.textContent;
-    getKeyBtn.textContent = 'Copied ✓';
-    setTimeout(()=>{ if (getKeyBtn) getKeyBtn.textContent = orig; }, 1800);
-  });
-
-  submitBtn.addEventListener('click', function(){
-    const key = keyInput.value.trim();
-    if(!key){
-      showToast('Please enter a key!', true);
-      return;
-    }
-    showToast('Key submitted: ' + key);
-    // add any further handling here (AJAX, form submit, etc.)
-  });
-
-  // Simulated player count (matches your script's random simulation)
-  let playerCount = Math.floor(Math.random()*150) + 50;
-  playersCountEl.textContent = String(playerCount);
-  (function simulatePlayers(){
-    setInterval(()=>{
-      playerCount += Math.floor(Math.random()*9)-4;
-      if(playerCount < 30) playerCount = 30;
-      if(playerCount > 300) playerCount = 300;
-      playersCountEl.textContent = String(playerCount);
-    }, Math.floor(Math.random()*4000) + 1800);
-  })();
-
-  // Keyboard escape to "close" (here we just show toast and stop countdown)
-  document.addEventListener('keydown', (e)=>{
-    if(e.key === 'Escape'){
-      showToast('UI closed (simulated)');
-      // stop countdown
-      clearInterval(interval);
-      countEl.textContent = '-';
-      bar.style.transform = 'scaleX(0)';
-    }
-  });
-
-  // accessibility: announce toast on focus
-  toast.setAttribute('aria-hidden','false');
-
-})();
-</script>
 </body>
 </html>
