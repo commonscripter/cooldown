@@ -1,367 +1,119 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VividScripter: SAB</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cooldown Redirect</title>
   <style>
-    :root {
-      --light-pink: #ff6fae;
-      --muted: rgba(255,255,255,0.5);
-    }
-
-    body, html {
+    body {
+      background: #0f1724;
+      color: #e6eef6;
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
       margin: 0;
-      font-family: system-ui, sans-serif;
-      background: #1a0f1d;
-      color: #fff;
-      overflow-x: hidden; /* prevent horizontal scroll */
-    }
-
-    main.card {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      padding: 20px;
-      max-width: 1200px;
-      margin: auto;
-      box-sizing: border-box;
-    }
-
-    section.left, aside.right {
-      flex: 1;
-      min-width: 300px;
-      box-sizing: border-box;
-    }
-
-    .title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    pre.code {
-      background: #2a1630;
-      padding: 12px;
-      border-radius: 6px;
-      overflow-x: auto;
-      font-size: 14px;
-      white-space: pre-wrap; /* wrap code on mobile */
-      word-break: break-word; /* break long words */
-    }
-
-    .status-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 10px;
-    }
-
-    .status-card {
-      background: #2a1630;
-      padding: 12px;
-      border-radius: 6px;
       text-align: center;
+      padding: 16px; /* padding for small screens */
     }
-
-    .controls {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+    .count { font-size: 2em; font-weight: bold; }
+    .muted { color: #9aa4b2; }
+    .notice {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #ffb86b;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 10px;
+      border-radius: 8px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
     }
-
-    input.input-key {
-      flex: 1;
-      min-width: 180px;
-      padding: 8px;
-      border: 1px solid #444;
-      border-radius: 4px;
-      background: #1a0f1d;
-      color: #fff;
-      box-sizing: border-box;
-    }
-
-    button.btn {
-      padding: 8px 14px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      background: var(--light-pink);
-      color: #fff;
-      font-weight: 600;
-    }
-
-    button.btn.ghost {
-      background: transparent;
-      border: 1px solid var(--light-pink);
-      color: var(--light-pink);
-    }
-
-    .progress {
-      width: 100%;
-      height: 6px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 3px;
-      overflow: hidden;
-    }
-
-    .bar {
-      height: 100%;
-      background: var(--light-pink);
-      transform-origin: left;
-      transform: scaleX(1);
-      transition: transform 1s linear;
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #2a1630;
-      padding: 10px 16px;
+    pre {
+      background: rgba(255,255,255,0.05);
+      padding: 10px;
       border-radius: 6px;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.2);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .3s;
-    }
-    .toast.show { opacity: 1; pointer-events: auto; }
-    .toast.hide { opacity: 0; }
-
-    /* ----------- MOBILE FIX ----------- */
-    @media (max-width: 768px) {
-      main.card {
-        flex-direction: column;
-        padding: 10px;
-      }
-
-      .title-row {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .controls {
-        flex-direction: column;
-      }
-
-      input.input-key, button.btn {
-        width: 100% !important;
-        min-width: 0;
-      }
-
-      pre.code {
-        font-size: 12px;
-      }
-
-      .status-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .status-card {
-        font-size: 12px;
-        padding: 8px;
-      }
-
-      .muted-small {
-        font-size: 11px;
-      }
+      text-align: left;
+      white-space: pre-wrap;    /* ✅ allow wrapping */
+      word-break: break-word;   /* ✅ break long lines */
+      overflow-x: auto;         /* ✅ scroll if needed */
+      max-width: 100%;          /* ✅ fit screen */
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
-  <div class="bg-overlay" aria-hidden="true"></div>
-  <main class="card" role="main" aria-labelledby="mainTitle">
+  <div>
+    <h1>Script Countdown</h1>
+    <pre id="luaCode">print("PrettyScripters") -- loadstring(game:HttpGet("https://raw.githubusercontent.com/commonscripter/CommonScriptsInvisibility/refs/heads/main/CommonInvisibility.lua"))()</pre>
+    <p><span class="count">8</span> <span class="muted">seconds until copied & redirected...</span></p>
+    <p id="copiedMsg" style="display:none;color:#3dd3b0">Copied to clipboard ✓</p>
 
-    <!-- LEFT -->
-    <section class="left" aria-label="Key preview and countdown">
-      <div class="title-row">
-        <div class="title-left">
-          <div class="logo-dot" aria-hidden="true"></div>
-          <div>
-            <h1 id="mainTitle" class="title">VividScripter: SAB</h1>
-            <div class="subtitle">Trial 3 days</div>
-          </div>
-        </div>
-        <div style="text-align:right;">
-          <div class="muted-small">Status</div>
-          <div style="font-weight:700;color:var(--light-pink)">Online</div>
-        </div>
-      </div>
-
-      <pre id="luaCode" class="code" aria-label="Lua code to copy">
--- If you don't have the script, paste this in your executor.
-loadstring(game:HttpGet("https://raw.githubusercontent.com/commonscripter/PrettyScriptsAntiHit/main/PrettyAnti-Hit.lua"))()
-      </pre>
-
-      <div style="display:flex;gap:10px;align-items:center;justify-content:space-between;">
-        <div>
-          <div style="font-size:13px;color:var(--muted)">seconds until copied & redirected</div>
-          <div style="font-weight:700;font-size:20px;color:var(--light-pink)" id="countDown">8</div>
-        </div>
-        <div style="flex:1; max-width:220px; text-align:right;">
-          <div class="progress"><div class="bar" id="bar"></div></div>
-        </div>
-      </div>
-
-      <div class="notice" style="margin-top:8px">
-        ⚠️ Google may ask if you allow pop-ups from this site. Click <strong>Allow</strong> to open the key page.
-      </div>
-    </section>
-
-    <!-- RIGHT -->
-    <aside class="right" aria-label="Controls and status cards">
-      <div class="status-grid" role="list">
-        <div class="status-card" role="listitem">
-          <div class="status-label">Script</div>
-          <div class="status-value" id="scriptStatus">Online</div>
-        </div>
-        <div class="status-card" role="listitem">
-          <div class="status-label">Server</div>
-          <div class="status-value" id="serverStatus">Online</div>
-        </div>
-        <div class="status-card" role="listitem">
-          <div class="status-label">Players</div>
-          <div class="status-value" id="playersCount">0</div>
-        </div>
-        <div class="status-card" role="listitem">
-          <div class="status-label">Clicks</div>
-          <div class="status-value" id="clickCounter">0</div>
-        </div>
-      </div>
-
-      <div style="margin-top:6px">
-        <div class="muted-small">Enter your key</div>
-        <div class="controls" style="margin-top:8px">
-          <input id="keyInput" class="input-key" placeholder="Enter your key..." />
-          <button id="getKeyBtn" class="btn">Get Key</button>
-          <button id="submitBtn" class="btn ghost">Submit</button>
-        </div>
-      </div>
-
-      <div style="margin-top:8px">
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-          <div class="muted-small">Direct link</div>
-          <a id="directLink" href="#" target="_blank" rel="noopener"
-             style="color:var(--light-pink); font-weight:700; text-decoration:none; margin-left:auto;">Open manually</a>
-        </div>
-        <div style="margin-top:10px">
-          <small class="muted-small">Tip: Click <strong>Get Key</strong> to copy the code and open the key page.</small>
-        </div>
-      </div>
-    </aside>
-  </main>
-
-  <!-- Toast -->
-  <div id="toast" class="toast hide" role="status" aria-live="polite">
-    <div style="width:10px;height:10px;border-radius:50%;background:var(--light-pink);box-shadow:0 4px 18px rgba(255,105,180,0.16)"></div>
-    <div id="toastText">Copied to clipboard ✓</div>
+    <!-- ⚠️ Popup notice -->
+    <div class="notice">
+      ⚠️ Google may ask if you allow pop-ups from this site.  
+      Please click <b>Allow</b> — this is required to open the key page.
+    </div>
   </div>
 
   <script>
     (function(){
-      const luaCode = document.getElementById('luaCode');
-      const countEl = document.getElementById('countDown');
-      const bar = document.getElementById('bar');
-      const toast = document.getElementById('toast');
-      const toastText = document.getElementById('toastText');
-      const getKeyBtn = document.getElementById('getKeyBtn');
-      const submitBtn = document.getElementById('submitBtn');
-      const keyInput = document.getElementById('keyInput');
-      const playersCountEl = document.getElementById('playersCount');
-      const clickCounterEl = document.getElementById('clickCounter');
-      const directLink = document.getElementById('directLink');
-
-      const redirectURL = "https://www.roblox.com/share?code=f0a123e443457243b69c47314449ad63&type=Server";
-      directLink.href = redirectURL;
-
-      let timeLeft = 8;
-      countEl.textContent = timeLeft;
-      bar.style.transform = `scaleX(${timeLeft/8})`;
+      let t = 8;
+      const countEl = document.querySelector('.count');
+      const codeEl = document.getElementById('luaCode');
+      const copiedMsg = document.getElementById('copiedMsg');
+      const redirectURL = "https://www.roblox.com/share?code=7468c83294892e43bcd369a41454fe9f&type=Server";
 
       const interval = setInterval(()=>{
-        timeLeft--;
-        if(timeLeft <= 0){
+        t--;
+        if(t <= 0){
           clearInterval(interval);
-          doCopyAndOpen();
-          countEl.textContent = "0";
-          bar.style.transform = "scaleX(0)";
+          const text = codeEl.innerText.trim();
+
+          // Copy code
+          if(navigator.clipboard && navigator.clipboard.writeText){
+            navigator.clipboard.writeText(text).then(()=>{
+              copiedMsg.style.display = 'block';
+            }).catch(()=> fallbackCopy(text));
+          } else {
+            fallbackCopy(text);
+          }
+
+          countEl.textContent = '0';
+
+          // Open Roblox link in new tab
+          const a = document.createElement("a");
+          a.href = redirectURL;
+          a.target = "_blank";
+          a.rel = "noopener";
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+
         } else {
-          countEl.textContent = String(timeLeft);
-          bar.style.transform = `scaleX(${timeLeft/8})`;
+          countEl.textContent = String(t);
         }
       }, 1000);
-
-      function showToast(msg){
-        toastText.textContent = msg;
-        toast.classList.add('show');
-        setTimeout(()=> toast.classList.remove('show'), 2500);
-      }
 
       function fallbackCopy(text){
         const ta = document.createElement('textarea');
         ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
         document.body.appendChild(ta);
         ta.select();
-        try { document.execCommand('copy'); showToast('Copied to clipboard ✓'); }
-        catch(e) { showToast('Copy failed — copy manually'); }
-        finally { document.body.removeChild(ta); }
-      }
-
-      function doCopyAndOpen(){
-        const text = luaCode.innerText.trim();
-        if(navigator.clipboard){
-          navigator.clipboard.writeText(text).then(()=> showToast('Copied to clipboard ✓'))
-          .catch(()=> fallbackCopy(text));
-        } else { fallbackCopy(text); }
         try {
-          const a = document.createElement('a');
-          a.href = redirectURL;
-          a.target = '_blank';
-          a.rel = 'noopener';
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-        } catch(e){}
-      }
-
-      let clicks = 0;
-      getKeyBtn.addEventListener('click', ()=>{
-        clicks++;
-        clickCounterEl.textContent = String(clicks);
-        doCopyAndOpen();
-        const orig = getKeyBtn.textContent;
-        getKeyBtn.textContent = 'Copied ✓';
-        setTimeout(()=> getKeyBtn.textContent = orig, 1800);
-      });
-
-      submitBtn.addEventListener('click', ()=>{
-        const key = keyInput.value.trim();
-        if(!key){ showToast('Please enter a key!'); return; }
-        showToast('Key submitted: ' + key);
-      });
-
-      let playerCount = Math.floor(Math.random()*150) + 50;
-      playersCountEl.textContent = String(playerCount);
-      setInterval(()=>{
-        playerCount += Math.floor(Math.random()*9)-4;
-        if(playerCount < 30) playerCount = 30;
-        if(playerCount > 300) playerCount = 300;
-        playersCountEl.textContent = String(playerCount);
-      }, Math.floor(Math.random()*4000) + 1800);
-
-      document.addEventListener('keydown', (e)=>{
-        if(e.key === 'Escape'){
-          showToast('UI closed (simulated)');
-          clearInterval(interval);
-          countEl.textContent = '-';
-          bar.style.transform = 'scaleX(0)';
+          document.execCommand('copy');
+          copiedMsg.style.display = 'block';
+        } catch(e) {
+          copiedMsg.style.display = 'block';
+          copiedMsg.textContent = 'Copy failed — copy manually';
+          copiedMsg.style.color = '#ffb86b';
+        } finally {
+          document.body.removeChild(ta);
         }
-      });
+      }
     })();
   </script>
 </body>
